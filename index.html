@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Move-Out Assessment · Leazzy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1C2B3A;
+      --navy-deep: #111C27;
+      --slate: #3D5166;
+      --paper: #F7F4EE;
+      --paper-warm: #EDE9E0;
+      --paper-dark: #E2DDD3;
+      --gold: #B08D57;
+      --gold-light: #C9A96E;
+      --ink: #1C2B3A;
+      --ink-mid: #3D5166;
+      --ink-muted: #94A8B8;
+      --rule: rgba(28,43,58,.12);
+      --rule-strong: rgba(28,43,58,.22);
+      --headline-light: #294B74;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: "DM Sans", sans-serif; background: #fff; color: var(--ink); overflow-x: hidden; }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .4;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      padding: 0 56px;
+      background: rgba(247,244,238,.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-family: "Manrope", sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.03em;
+      text-decoration: none;
+    }
+
+    .nav-context {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-left: 12px;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .nav-links a {
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--navy); }
+
+    .nav-cta {
+      font-family: "DM Mono", monospace !important;
+      font-size: 10px !important;
+      letter-spacing: .12em !important;
+      text-transform: uppercase;
+      border: 1px solid var(--navy);
+      color: var(--navy) !important;
+      padding: 8px 18px;
+      transition: all .2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--navy);
+      color: var(--paper) !important;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      padding: 150px 56px 100px;
+      display: grid;
+      grid-template-columns: 1fr 460px;
+      gap: 80px;
+      align-items: center;
+      background: var(--navy-deep);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.65) 30%, rgba(0,0,0,.65) 75%, transparent 100%);
+    }
+
+    .hero-left, .hero-right { position: relative; z-index: 1; }
+
+    .eyebrow {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 34px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: var(--gold-light);
+      display: block;
+    }
+
+    .hero h1 {
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(52px, 5.5vw, 84px);
+      font-weight: 400;
+      line-height: 1.04;
+      letter-spacing: -.045em;
+      color: var(--paper);
+      margin-bottom: 34px;
+      max-width: 760px;
+    }
+
+    .hero h1 em { font-style: italic; font-weight: 300; color: var(--gold-light); }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(247,244,238,.76);
+      line-height: 1.75;
+      max-width: 580px;
+      margin-bottom: 42px;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 28px; }
+
+    .btn-primary {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--navy-deep);
+      background: var(--gold-light);
+      border: none;
+      padding: 15px 28px;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+
+    /* Bilateral entry buttons */
+    .bilateral-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .btn-role {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 12px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .2s;
+    }
+
+    .btn-role:hover {
+      background: rgba(255,255,255,.07);
+      border-color: rgba(201,169,110,.5);
+      color: var(--gold-light);
+    }
+
+    /* Quick actions */
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .quick-actions a {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(247,244,238,.45);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 14px;
+      transition: all .2s;
+    }
+
+    .quick-actions a:hover {
+      color: var(--paper);
+      border-color: rgba(255,255,255,.2);
+      background: rgba(255,255,255,.04);
+    }
+
+    /* Hero card */
+    .hero-card {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      position: relative;
+      padding: 34px;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      top: -1px; left: -1px; right: -1px;
+      height: 2px;
+      background: var(--gold-light);
+    }
+
+    .card-label {
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(247,244,238,.38);
+      padding-bottom: 16px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .chat-row { margin-bottom: 24px; }
+    .chat-row:last-child { margin-bottom: 0; }
+
+    .chat-who {
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .chat-who.landlord { color: var(--ink-muted); }
+
+    .chat-text { font-size: 14px; font-weight: 300; color: rgba(247,244,238,.82); line-height: 1.7; }
+    .chat-text.strong { color: var(--paper); }
+
+    /* Content sections */
+    .section {
+      padding: 100px 56px;
+      border-bottom: 1px solid var(--rule);
+      background: #fff;
+    }
+
+    .section.alt { background: var(--paper-warm); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 70px;
+      margin-bottom: 64px;
+    }
+
+    .t-label {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+    }
+
+    .section-title {
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(34px, 3.2vw, 52px);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -.035em;
+      color: var(--headline-light);
+      margin-bottom: 20px;
+      max-width: 760px;
+    }
+
+    .section-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--slate);
+      max-width: 620px;
+    }
+
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--rule-strong);
+    }
+
+    .use-case {
+      padding: 42px 36px;
+      border-right: 1px solid var(--rule-strong);
+    }
+
+    .use-case:last-child { border-right: none; }
+
+    .use-num {
+      font-family: "DM Mono", monospace;
+      font-size: 38px;
+      color: var(--paper-dark);
+      margin-bottom: 24px;
+      line-height: 1;
+    }
+
+    .use-title {
+      font-family: "Manrope", sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--headline-light);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .use-body { font-size: 13.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; }
+
+    /* Role tag */
+    .role-tag {
+      display: inline-block;
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin-bottom: 14px;
+      border: 1px solid var(--rule-strong);
+      color: var(--ink-muted);
+    }
+
+    /* Ask section */
+    .ask-section {
+      padding: 110px 56px;
+      background: var(--navy-deep);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ask-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: .7;
+      pointer-events: none;
+    }
+
+    .ask-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .ask-title {
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(36px, 4vw, 58px);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 28px;
+    }
+
+    .ask-title em { font-style: italic; font-weight: 300; color: var(--gold-light); }
+
+    .ask-box {
+      display: flex;
+      max-width: 640px;
+      margin: 36px auto 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+
+    .ask-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 17px 18px;
+      color: var(--paper);
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    .ask-input::placeholder { color: rgba(247,244,238,.35); }
+
+    .ask-btn {
+      font-family: "DM Mono", monospace;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--navy-deep);
+      background: var(--gold-light);
+      border: none;
+      padding: 0 24px;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+
+    .ask-btn:hover { opacity: .88; }
+
+    .suggested-prompts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 0 auto 20px;
+      max-width: 640px;
+    }
+
+    .suggested-prompts button {
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(247,244,238,.65);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: left;
+    }
+
+    .suggested-prompts button:hover {
+      color: var(--paper);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(176,141,87,.4);
+    }
+
+    .ask-note {
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(247,244,238,.32);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--navy-deep);
+      padding: 64px 56px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      font-family: "Manrope", sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #F0EDE6;
+      letter-spacing: -.04em;
+      margin-bottom: 8px;
+    }
+
+    .footer-tagline {
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,.3);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .footer-meta {
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      color: rgba(240,237,230,.15);
+    }
+
+    .footer-col-label {
+      font-family: "DM Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(176,141,87,.5);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(240,237,230,.45);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover { color: rgba(240,237,230,.8); }
+
+    /* Responsive */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .nav-cta { padding: 7px 14px !important; font-size: 9px !important; }
+      .hero { grid-template-columns: 1fr; padding: 120px 24px 80px; }
+      .hero-right { display: none; }
+      .section, .ask-section { padding: 80px 24px; }
+      .section-header { grid-template-columns: 1fr; gap: 32px; }
+      .use-cases { grid-template-columns: 1fr; }
+      .use-case { border-right: none; border-bottom: 1px solid var(--rule-strong); }
+      .use-case:last-child { border-bottom: none; }
+      .ask-box { flex-direction: column; }
+      .ask-btn { padding: 15px 20px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+      footer { padding: 56px 24px; }
+      .bilateral-actions { flex-direction: column; }
+      .btn-role { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://leazzy.co" class="nav-brand">
+      Leazzy<span class="nav-context">/ Move-Out Assessment</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#questions">Common questions</a>
+      <a href="#ask" class="nav-cta">Know where I stand →</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-grid-overlay"></div>
+
+    <div class="hero-left">
+      <div class="eyebrow">Move-Out Assessment · Utah</div>
+      <h1>Your lease is ending.<br><em>Do you know<br>where you stand?</em></h1>
+      <p class="hero-sub">
+        Tenants and landlords in Utah can get a free situational assessment before deciding what to do next. Leazzy helps organize the facts, identify what matters, and clarify where you stand.
+      </p>
+
+      <div class="bilateral-actions">
+        <a href="https://leazzy.co/askezra/chat?context=moveout&role=tenant" class="btn-role">I'm moving out →</a>
+        <a href="https://leazzy.co/askezra/chat?context=moveout&role=landlord" class="btn-role">I have a tenant leaving →</a>
+      </div>
+
+      <div class="quick-actions">
+        <a href="https://leazzy.co/askezra/chat?context=moveout&role=tenant&q=My+deposit+was+withheld+%E2%80%94+what+should+I+check">My deposit was withheld — what should I check?</a>
+        <a href="https://leazzy.co/askezra/chat?context=moveout">What can I do next?</a>
+        <a href="https://leazzy.co/askezra/chat?context=moveout">Review my lease</a>
+        <a href="https://leazzy.co/askezra/chat?context=moveout">Understand a notice</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="card-label">Example — Utah Residential · Move-Out</div>
+
+        <div class="chat-row">
+          <div class="chat-who">Tenant</div>
+          <div class="chat-text strong">My landlord kept $1,800 from my deposit and sent no itemized explanation. What should I do?</div>
+        </div>
+
+        <div class="chat-row">
+          <div class="chat-who">Ezra</div>
+          <div class="chat-text">In Utah, deposit disputes often turn on timing, written notice, itemized deductions, forwarding address, and condition evidence. Missing or unclear documentation may matter. Let's start with the timeline — when did you move out, and what written communication have you received?</div>
+        </div>
+
+        <div class="chat-row">
+          <div class="chat-who">Ezra</div>
+          <div class="chat-text">Share what you have — lease, move-out date, any communication — and I'll help you understand where you stand before you decide what to do next.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="questions">
+    <div class="section-inner">
+      <div class="section-header">
+        <div><span class="t-label">Who This Is For</span></div>
+        <div>
+          <h2 class="section-title">Both sides of the lease deserve clarity.</h2>
+          <p class="section-body">Move-out situations involve money, documentation, and deadlines — for tenants and landlords alike. Leazzy helps both sides understand what their documents say and what matters before they decide what to do next.</p>
+        </div>
+      </div>
+      <div class="use-cases">
+        <div class="use-case">
+          <div class="role-tag">Tenant</div>
+          <div class="use-title">Deposit withheld or disputed</div>
+          <p class="use-body">Understand what your landlord can and cannot deduct, what Utah law requires them to provide, and what your options are if the deposit wasn't returned properly.</p>
+        </div>
+        <div class="use-case">
+          <div class="role-tag">Landlord</div>
+          <div class="use-title">Documenting deductions</div>
+          <p class="use-body">Understand what deductions are legally defensible, what documentation you need, and what Utah law requires before you withhold any portion of a security deposit.</p>
+        </div>
+        <div class="use-case">
+          <div class="role-tag">Both</div>
+          <div class="use-title">Notices, timelines, and obligations</div>
+          <p class="use-body">Review lease language, move-out notice periods, forwarding address requirements, inspection rights, and return deadlines — before a misunderstanding becomes a dispute.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="how">
+    <div class="section-inner">
+      <div class="section-header">
+        <div><span class="t-label">What Happens Next</span></div>
+        <div>
+          <h2 class="section-title">Orientation, not representation.</h2>
+          <p class="section-body">Leazzy does not replace a lawyer, court, or housing authority. It helps you understand the situation in plain language, identify what matters in your documents, and know what to do next — before committing to any course of action.</p>
+        </div>
+      </div>
+      <div class="use-cases">
+        <div class="use-case">
+          <div class="use-num">A</div>
+          <div class="use-title">Situational assessment</div>
+          <p class="use-body">Describe your situation. Leazzy asks the right questions, reviews the relevant facts, and tells you honestly where you stand — including when the situation may not support the outcome you're hoping for.</p>
+        </div>
+        <div class="use-case">
+          <div class="use-num">B</div>
+          <div class="use-title">Document review</div>
+          <p class="use-body">Share your lease, notices, or communications. Leazzy identifies the clauses and deadlines that matter for your specific situation — without pretending the document is simpler than it is.</p>
+        </div>
+        <div class="use-case">
+          <div class="use-num">C</div>
+          <div class="use-title">Next steps</div>
+          <p class="use-body">Leave knowing what to do — what to document, what to send, what timelines apply, and when you may need formal legal help. The decision is always yours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ask-section" id="ask">
+    <div class="ask-inner">
+      <div class="eyebrow" style="justify-content:center;">Move-Out Assessment</div>
+      <h2 class="ask-title">Where do you<br><em>stand?</em></h2>
+      <div class="ask-box">
+        <input class="ask-input" id="askInput" type="text" placeholder="My landlord kept my deposit and sent no explanation..." />
+        <button class="ask-btn" id="askBtn">Ask →</button>
+      </div>
+      <div class="suggested-prompts">
+        <button data-role="tenant">Can my landlord keep my deposit?</button>
+        <button data-role="tenant">What happens if I never got an itemized list?</button>
+        <button data-role="landlord">What should I document before making deposit deductions?</button>
+        <button data-role="landlord">My tenant damaged the carpet — what do I need to document?</button>
+      </div>
+      <div class="ask-note">Utah residential rentals · Free assessment · Not legal advice · The decision is always yours</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Leazzy</div>
+        <div class="footer-tagline">
+          Framework for Rental<br>
+          Market Infrastructure
+        </div>
+        <div class="footer-meta">2026 · leazzy.co</div>
+      </div>
+      <div>
+        <div class="footer-col-label">Leazzy</div>
+        <ul class="footer-links">
+          <li><a href="https://leazzy.co#thesis">Thesis</a></li>
+          <li><a href="https://leazzy.co#architecture">Architecture</a></li>
+          <li><a href="https://leazzy.co#ezra">Ezra</a></li>
+          <li><a href="https://leazzy.co#follow">Follow the Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Contact</div>
+        <ul class="footer-links">
+          <li><a href="https://leazzy.co">leazzy.co</a></li>
+          <li><a href="https://myrentreports.com">myrentreports.com</a></li>
+          <li><a href="mailto:hello@leazzy.co">hello@leazzy.co</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const askBtn = document.getElementById("askBtn");
+    const askInput = document.getElementById("askInput");
+
+    function buildUrl(q, role) {
+      const base = "https://leazzy.co/askezra/chat";
+      const params = new URLSearchParams({ context: "moveout" });
+      if (role) params.set("role", role);
+      if (q) params.set("q", q);
+      return base + "?" + params.toString();
+    }
+
+    function handleAsk(q, role) {
+      const query = q !== undefined ? q : askInput.value.trim();
+      window.location.href = buildUrl(query, role || null);
+    }
+
+    askBtn.addEventListener("click", () => handleAsk());
+    askInput.addEventListener("keydown", e => { if (e.key === "Enter") handleAsk(); });
+
+    document.querySelectorAll(".suggested-prompts button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const role = btn.dataset.role || null;
+        handleAsk(btn.textContent.trim(), role);
+      });
+    });
+
+    window.addEventListener("scroll", () => {
+      const nav = document.querySelector("nav");
+      nav.style.borderBottomColor = window.scrollY > 20
+        ? "rgba(28,43,58,.18)"
+        : "rgba(28,43,58,.12)";
+    });
+  </script>
+
+</body>
+</html>
